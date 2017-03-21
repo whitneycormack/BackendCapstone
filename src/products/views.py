@@ -7,11 +7,34 @@ from django.contrib import messages
 
 # Create your views here.
 from .forms import VariationInventoryFormSet
-from .models import Product, Variation
+from .models import Product, Variation, Category
+from .mixins import StaffRequiredMixin
+
+
+class CategoryListView(ListView):
+    model = Category
+    queryset = Category.objects.all()
+    template_name = "products/product_list.html"
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CategoryDetailView, self).get_context_data(*args, **kwargs)
+        obj = self.get_object()
+        product_set = obj.product_set.all()
+        default_products = obj.default_category.all()
+        products = ( product_set | default_products ).distinct()
+        context["products"] = products
+        return context
 
 
 
-class VariationListView(ListView):
+
+
+
+class VariationListView(StaffRequiredMixin, ListView):
     model = Variation
     queryset = Variation.objects.all()
 
@@ -34,10 +57,11 @@ class VariationListView(ListView):
             formset.save(commit=False)
             for form in formset:
                 new_item = form.save(commit=False)
-                product_pk = self.kwargs.get("pk")
-                product = get_object_or_404(Product, pk=product_pk)
-                new_item.product = product
-                new_item.save()
+                if new_item.title:
+                    product_pk = self.kwargs.get("pk")
+                    product = get_object_or_404(Product, pk=product_pk)
+                    new_item.product = product
+                    new_item.save()
 
             messages.success(request, "Your inventory has been updated")
             return redirect("products")
@@ -48,6 +72,14 @@ class VariationListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     # template_name = "products/product_detail.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
+        instance = self.get_object()
+        context["related"] = Product.objects.get_related(instance)[:6]
+        return context
+
+
 
 def product_detail_view(request, id):
     product_instance = get_object_or_404(Product(id=pk))

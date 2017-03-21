@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save
 from django.utils.text import slugify
+from django.utils.safestring import mark_safe
 # Create your models here.
 
 
@@ -18,12 +19,23 @@ class ProductManager(models.Manager):
     def all(self, *args, **kwargs):
         return self.get_queryset().active()
 
+    def get_related(self, instance):
+        products_one = self.get_queryset().filter(categories__in=instance.categories.all())
+        products_two = self.get_queryset().filter(default=instance.default)
+        qs = ( products_one | products_two ).exclude(id=instance.id).distinct()
+        return qs
+
+
+
+
+
 class Product(models.Model):
   title = models.CharField(max_length=120)
   description = models.TextField(blank=True, null=True)
   price = models.DecimalField(decimal_places=2, max_digits=20)
   active = models.BooleanField(default=True)
-  #inventory?
+  categories = models.ManyToManyField('Category', blank=True)
+  default = models.ForeignKey('Category', related_name='default_category', null=True, blank=True)
 
   objects = ProductManager()
 
@@ -32,6 +44,14 @@ class Product(models.Model):
 
   def get_absolute_url(self):
     return reverse("product_detail", kwargs={"pk": self.pk})
+
+
+  def get_image_url(self):
+      img = self.productimage_set.first()
+      if img:
+          return img.image.url
+      return img
+
 
 
 class Variation(models.Model):
@@ -51,6 +71,16 @@ class Variation(models.Model):
             return self.sale_price
         else:
             return self.price
+
+    # def get_html_price(self):
+    #     if self.sale_price is not None:
+    #         html_text = "<span class='sale_price'>%s</span><span class='og_price'>%s</span>" %(self.sale_price, self.og-price)
+    #     else:
+    #         html_text = "<span class='price'>%s</span>" %(self.price)
+    #     return mark_safe(html_text)
+
+
+
 
     def get_absolute_url(self):
         return self.product.get_absolute_url()
@@ -89,10 +119,20 @@ class ProductImage(models.Model):
 
 
 
+# product categories
 
+class Category(models.Model):
+    title = models.CharField(max_length=120, unique=True)
+    slug = models.SlugField(unique=True)
+    description = models.TextField(null=True, blank=True)
+    active = models.BooleanField(default=True)
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 
+    def __str__(self):
+        return self.title
 
-
+    def get_absolute_url(self):
+        return reverse("category_detail", kwargs={"slug":self.slug})
 
 
 

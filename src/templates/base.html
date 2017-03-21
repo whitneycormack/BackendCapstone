@@ -19,12 +19,23 @@
       {% block style %}{% endblock %}
       </style>
 
-
-
   </head>
 
   <body>
   {% include 'navbar.html' %}
+
+{% if messages %}
+<div class='container'>
+  <div class='alert alert-success text-center alert-dismissable'>
+  {% for message in messages %}
+  <p{% if message.tags %} class="{{ messages.tags }}"{% endif %}>{{ message }}</p></br>
+  {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+
+
 
 {% block jumbotron %}
 
@@ -43,5 +54,23 @@
     {% include "javascript.html" %}
 
 
+  <script>
+  $(document).ready(function(){
+    {% block jquery %}
+
+    {% endblock %}
+  });
+  </script>
+
+
+
+
   </body>
 </html>
+
+
+
+
+
+
+
