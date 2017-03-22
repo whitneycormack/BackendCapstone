@@ -72,12 +72,12 @@ class Variation(models.Model):
         else:
             return self.price
 
-    # def get_html_price(self):
-    #     if self.sale_price is not None:
-    #         html_text = "<span class='sale_price'>%s</span><span class='og_price'>%s</span>" %(self.sale_price, self.og-price)
-    #     else:
-    #         html_text = "<span class='price'>%s</span>" %(self.price)
-    #     return mark_safe(html_text)
+    def get_html_price(self):
+        if self.sale_price is not None:
+            html_text = "<span class='sale_price'>%s</span> <span class='og-price'>%s</span>" %(self.sale_price, self.price)
+        else:
+            html_text = "<span class='price'>%s</span>" %(self.price)
+        return mark_safe(html_text)
 
 
 
@@ -136,13 +136,26 @@ class Category(models.Model):
 
 
 
+# Featured Product for landing page
+
+def image_upload_to_featured(instance, filename):
+    title = instance.product.title
+    slug = slugify(title)
+    return "products/%s/%s" %(slug, filename)
 
 
+class ProductFeatured(models.Model):
+      product = models.ForeignKey(Product)
+      image = models.ImageField(upload_to=image_upload_to_featured)
+      title = models.CharField(max_length=120, null=True, blank=True)
+      text = models.CharField(max_length=220, null=True, blank=True)
+      text_right = models.BooleanField(default=False)
+      show_price = models.BooleanField(default=False)
+      active = models.BooleanField(default=True)
 
 
-
-
-
+      def __str__(self):
+          return self.product.title
 
 
 
