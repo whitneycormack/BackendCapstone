@@ -81,12 +81,12 @@
 
 
 <h4>Related Products</h4>
-
+<hr>
   <div class="row">
     {% for product in related %}
 
     <div class="col-xs-6">
-      {% include "products/product_thumbnail.html" with product=product %}
+      {% include "products/product_thumbnail.html" with product=product price="True" %}
     </div>
     {% cycle '' '</div><div class="row">' %}
     {% endfor %}
