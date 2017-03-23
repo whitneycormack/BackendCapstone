@@ -13,7 +13,7 @@ class Cart(models.Model):
     items = models.ManyToManyField(Variation, through="CartItem")
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    total = models.DecimalField(max_digits=50, decimal_places=2, default=10.00)
+    total = models.DecimalField(max_digits=50, decimal_places=2, null=True)
 
 
     def __str__(self):
@@ -24,14 +24,16 @@ class Cart(models.Model):
         total = 0
         items = self.cartitem_set.all()
         for item in items:
-            total += item.line_item_total
+            total = item.line_item_total
+            self.total = total
         self.save()
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey("Cart")
     item = models.ForeignKey(Variation)
     quantity = models.PositiveIntegerField(default=1)
-    line_item_total = models.DecimalField(max_digits=10, decimal_places=2)
+    line_item_total = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return self.item.title

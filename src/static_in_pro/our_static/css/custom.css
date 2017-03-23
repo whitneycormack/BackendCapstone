@@ -27,6 +27,9 @@
   margin-top: 10px;
 }
 
+.jumbotron img {
+  opacity: 80%;
+}
 
 .main-categories {
   max-height: 221px;
