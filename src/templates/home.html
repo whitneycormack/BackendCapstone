@@ -7,8 +7,6 @@
 
 
 {% block jumbotron %}
- {% if not request.user.is_authenticated %}
-
 
  <div class="container">
 	<div class="row">
@@ -16,24 +14,29 @@
 		<h1>Welcome to Whitney's Wine Shop</h1>
 		<p>Have fun finding your favorite wines from around the world with the click of a button</p>
 		<p>
-		<a class="btn btn-lg btn-primary" href="" role="button">shop now &raquo;</a>
+		<a class="btn btn-lg btn-primary" href='{% url "products" %}' role="button">shop now</a>
 		</p>
 		</div>
-
-
  	</div>
 </div>
 
-
- {% endif %}
 {% endblock %}
 
 
 
-
+ <!-- product list for main page -->
 {% block content %}
+
+
+
+
+
+
+
+
+
+
  {% if request.user.is_authenticated %}
-<h1>You are logged in!</h1>
 
 	{% if queryset %}
 	<h2>Welcome Staff</h2>
@@ -51,6 +54,7 @@
 
  <!-- main page bottom categories -->
  {% else %}
+
 <div class='container'>
 	<div class='col-sm-4'>
 	<p class='lead text-align-center'>Old World Wines </p>
@@ -68,6 +72,14 @@
 	</div>
 </div>
 
+<br>
+<hr>
+<div class='row'>
+	<h3>Recommended Products</h3>
+	{% include "products/products_template.html" with object_list=products col_class_set="col-sm-3" %}
+<hr>
+
+</div>
 
 
 

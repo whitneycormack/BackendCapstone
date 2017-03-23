@@ -27,11 +27,34 @@
   margin-top: 10px;
 }
 
+.jumbotron img {
+  opacity: 80%;
+}
 
 .main-categories {
   max-height: 221px;
   /*max-width: 340px;*/
   margin: auto;
 }
+
+.fa-navbar-cart {
+  vertical-align: middle;
+  font-size: 18px;
+
+}
+
+
+.thumbnail img {
+  max-height: 296px;
+  max-width: 260px;
+}
+
+.img-responsive img {
+  max-height: 500px;
+  max-width: 500px;
+}
+
+
+
 
 

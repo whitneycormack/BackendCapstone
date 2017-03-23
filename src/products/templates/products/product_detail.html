@@ -42,29 +42,37 @@
     <p class='lead'>{{ object.description }}</p>
   </div>
 
- <!-- product sidebar -->
+
+ <!-- *****  product sidebar ****** -->
 <div class='col-sm-4'>
-{% if object.variation_set.count > 1 %}
-  <h3 id="price">{{ object.variation_set.first.price }}</h3>
-<select class='form-control variation-select'>
-{% for var_obj in object.variation_set.all %}
-  <option data-sale-price="{{ var_obj.sale_price }}" data-price="{{ var_obj.price }}" value="{{ var_obj.id }}">{{ var_obj }}</option>
-  {% endfor %}
-</select>
+<form method='GET' action="{% url 'cart' %}">
+    {% if object.variation_set.count > 1 %}
+    <h3 id="price">{{ object.variation_set.first.price }}</h3>
+
+    <select name="item" class='form-control variation_select'>
+    {% for var_obj in object.variation_set.all %}
+      <option data-sale-price="{{ var_obj.sale_price }}" data-price="{{ var_obj.price }}" value="{{ var_obj.id }}">{{ var_obj }}</option>
+      {% endfor %}
+    </select>
 
 {% else %}
+    <input type="hidden" name="item" value='{{ object.variation_set.first.id }}' />
+    <h3 id='price'>{% if object.variation_set.first.sale_price %}
+    {{ object.variation_set.first.sale_price }}
+    <small class='og-price'>{{ object.variation_set.first.price }}</small>
+    {% else %}
 
-<h3 id='price'>{% if object.variation_set.first.sale_price %}
-{{ object.variation_set.first.sale_price }}
-<small class='og-price'>{{ object.variation_set.first.price }}</small>
-{% else %}
-{{ object.variation_set.first.price }}
-{% endif %}
-</h3>
+    {{ object.variation_set.first.price }}
+    {% endif %}
+    </h3>
 
 {% endif %}
+<br/>
+<input type='number' name='qty' class='form-control' value='1' />
 <br>
-<a href="#">Add to Cart</a>
+<input type="submit" class="btn btn-default" value="Add to Cart"/>
+</form>
+
 <br>
 <hr>
 
