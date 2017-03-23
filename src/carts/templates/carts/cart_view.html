@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h1>Your Cart</h1>
+<div class='row main-content'>
+  <table class='table'>
+
+    {% for item in object.cartitem_set.all %}
+    <tr id='item--{{item.item.id }}'></tr>
+    <td>{{ item.item.get_title }}</td>
+  </table>
+
+
+</div>
+{% endfor %}
+
+{% endblock %}
+

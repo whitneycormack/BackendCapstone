@@ -34,4 +34,24 @@
   margin: auto;
 }
 
+.fa-navbar-cart {
+  vertical-align: middle;
+  font-size: 18px;
+
+}
+
+
+.thumbnail img {
+  max-height: 296px;
+  max-width: 260px;
+}
+
+.img-responsive img {
+  max-height: 500px;
+  max-width: 500px;
+}
+
+
+
+
 

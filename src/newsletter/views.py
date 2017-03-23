@@ -2,17 +2,28 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render
 
-from products.models import ProductFeatured
+from products.models import ProductFeatured, Product
 from .forms import ContactForm, SignUpForm
 from .models import SignUp
 
 # Create your views here.
 def home(request):
-		# featured_image = ProductFeatured.objects.first()
-		# context = {
-		# 		"featured_image": featured_image,
-		# }
-		return render(request, "home.html")
+		products = Product.objects.all()[:8]
+		context = {
+				"products": products,
+		}
+
+
+
+
+
+
+		return render(request, "home.html", context)
+
+
+
+
+
 
 
 
