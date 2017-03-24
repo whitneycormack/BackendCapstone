@@ -31,12 +31,12 @@
 
 {% block content %}
 <div class='row'>
-  <div class='col-sm-8'>
+  <div class='col-sm-4 col-sm-offset-1' align="center">
     <h2>{{ object.title }}</h2>
 
     {% if object.get_image_url %}
     <div>
-      <img class='img-responsive' src='{{ object.get_image_url }}' />
+      <img class='images img-responsive' src='{{ object.get_image_url }}' />
     </div>
     {% endif %}
     <p class='lead'>{{ object.description }}</p>
@@ -44,7 +44,7 @@
 
 
  <!-- *****  product sidebar ****** -->
-<div class='col-sm-4'>
+<div class='col-sm-4 col-sm-offset-1'>
 <form method='GET' action="{% url 'cart' %}">
     {% if object.variation_set.count > 1 %}
     <h3 id="price">{{ object.variation_set.first.price }}</h3>

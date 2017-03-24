@@ -49,12 +49,13 @@
   max-width: 260px;
 }
 
-.img-responsive img {
-  max-height: 500px;
+.images {
+  max-height: 400px;
   max-width: 500px;
 }
 
-
-
+.wine-align {
+  vertical-align: middle;
+}
 
 
