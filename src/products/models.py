@@ -56,8 +56,8 @@ class Product(models.Model):
 
 class Variation(models.Model):
     product = models.ForeignKey(Product)
-    title = models.CharField(max_length=120)
-    price = models.DecimalField(decimal_places=2, max_digits=20)
+    title = models.CharField(max_length=120, null=True)
+    price = models.DecimalField(decimal_places=2, max_digits=20, default=1)
     sale_price = models.DecimalField(decimal_places=2, max_digits=20, null=True, blank=True)
     active = models.BooleanField(default=True)
     inventory = models.IntegerField(null=True, blank=True)

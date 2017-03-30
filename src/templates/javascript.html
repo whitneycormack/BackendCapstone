@@ -12,16 +12,16 @@
 <script>
 
 $(document).ready(function() {
-  var badge = $("cart-count-badge");
+  var badge = $("#cart-count-badge");
 
   $.ajax({
       type: "GET",
-      url: "{% url 'item_count' %}"
+      url: "{% url 'item_count' %}",
       success: function(data){
         badge.text(data.count)
       },
       error: function(response, error){
-        console.log(response)
+        console.log(response);
         console.log("errroorrr");
       }
   })
@@ -29,6 +29,4 @@ $(document).ready(function() {
 })
 
 
-
-
-    </script>
+</script>

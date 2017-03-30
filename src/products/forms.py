@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.models import modelformset_factory
+
 from .models import Variation
 
 class VariationInventoryForm(forms.ModelForm):

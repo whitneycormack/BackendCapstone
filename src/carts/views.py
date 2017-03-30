@@ -15,7 +15,14 @@ class ItemCountView(View):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            return JsonResponse({"count": 3})
+            cart_id = self.request.session.get("cart_id")
+
+            if cart_id == None:
+                count = 0
+            else:
+                cart = Cart.objects.get(id=cart_id)
+                count = cart.items.all()
+            return JsonResponse({"count": count})
         else:
             raise Http404
 

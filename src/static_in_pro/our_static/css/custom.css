@@ -45,16 +45,15 @@
 
 
 .thumbnail img {
-  max-height: 296px;
-  max-width: 260px;
+  max-height: 300px;
 }
 
-.img-responsive img {
-  max-height: 500px;
-  max-width: 500px;
+.images {
+  max-height: 400px;
 }
 
-
-
+.wine-align {
+  vertical-align: middle;
+}
 
 

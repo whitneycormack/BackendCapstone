@@ -27,6 +27,9 @@
   margin-top: 10px;
 }
 
+.jumbotron img {
+  opacity: 80%;
+}
 
 .main-categories {
   max-height: 221px;
@@ -39,4 +42,18 @@
   font-size: 18px;
 
 }
+
+
+.thumbnail img {
+  max-height: 300px;
+}
+
+.images {
+  max-height: 400px;
+}
+
+.wine-align {
+  vertical-align: middle;
+}
+
 
