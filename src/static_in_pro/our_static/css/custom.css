@@ -45,13 +45,11 @@
 
 
 .thumbnail img {
-  max-height: 296px;
-  max-width: 260px;
+  max-height: 300px;
 }
 
 .images {
   max-height: 400px;
-  max-width: 500px;
 }
 
 .wine-align {

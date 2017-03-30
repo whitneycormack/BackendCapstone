@@ -43,7 +43,7 @@ class CartItem(models.Model):
 
 def cart_item_pre_save(sender, instance, *args, **kwargs):
     qty = instance.quantity
-    if int(qty) > 1:
+    if int(qty) > 0:
         price = instance.item.get_price()
         line_item_total = Decimal(qty) * Decimal(price)
         instance.line_item_total = line_item_total
